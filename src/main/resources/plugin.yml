@@ -1,8 +1,9 @@
 name: Spamm
-main: me.skyrimfan1.spamm.Spamm
-version: 1.0.1
+main: me.dmhacker.spamm.Spamm
+version: 1.1.0
 description: Prevents those darn client spammers!
 author: skyrimfan1
+load: POSTWORLD
 commands:
   spamm:
     description: The generic Spamm command

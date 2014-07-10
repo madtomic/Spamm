@@ -1,45 +1,48 @@
 ##############################
-#*** [[[ SPAMM CONFIG 1.0.1]]] ***#
+#*** [[[ SPAMM ]]] ***#
 ##############################
 
 delay: 40
-#The amount in server ticks Spamm will monitor for another consecutive chat message
-#If you do not know what this does, leave it as it is
-#20 TICKS = 1 SECOND
+# The amount in server ticks Spamm will monitor for another consecutive chat message
+# If you do not know what this does, leave it as it is
+# 20 TICKS = 1 SECOND
 
 cooldown: 20
-#The amount in server ticks Spamm uses to lower a player's spam count
-#If you do not know what this does, leave it as it is
-#20 TICKS = 1 SECOND
+# The amount in server ticks Spamm uses to lower a player's spam count
+# If you do not know what this does, leave it as it is
+# 20 TICKS = 1 SECOND
 
 log: true
-#If set to true, will create a spam log of everyone who has spammed
-#File is called spamlog.txt
+# If set to true, will create a spam log of everyone who has spammed
+# File is called spamlog.txt
 
 update: true
-#If set to true, when a new Spamm version is released, it will either download it or notify you
-#(See the download node for more info)
-#If set to false, it will ignore the updater
-#Downloads can still be manually triggered via /spamm update
+# If set to true, when a new Spamm version is released, it will either download it or notify you
+# (See the download node for more info)
+# If set to false, it will ignore the updater
+# Downloads can still be manually triggered via /spamm update
 
 download: false
-#If set to true, when a new Spamm version is released, it will either download it
-#If set to false, Spamm will notify you of the update but do nothing
-#The update node (above) must be on for this to have any effect!!!
+# If set to true, when a new Spamm version is released, it will either download it
+# If set to false, Spamm will notify you of the update but do nothing
+# The update node (above) must be on for this to have any effect!!!
 
 metrics: true
-#If set to true, will send plugin stats to MCStats.org
-#NOTE: This does not keep track of confidential information, only plugin-related info
+# If set to true, will send plugin stats to MCStats.org
+# NOTE: This does not keep track of confidential information, only plugin-related info
 
 count:
   warning: 3
-  #How many times you can spam before being warned
+  # How many times you can spam before being warned
   punishment: 7
-  #How many times you can spam before being punished
+  # How many times you can spam before being punished
 
 punishments:
   kick: true
-  #Kick the spammer
+  # Kick the spammer
   ban: false
-  #Ban em' if you hate em'
+  # Ban em' if you hate em'
 
+misc:
+  decapitalize: true
+  # Turns capitalized messages into lowercase ones
