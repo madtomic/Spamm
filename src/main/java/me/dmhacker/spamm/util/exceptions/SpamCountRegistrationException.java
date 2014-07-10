@@ -1,4 +1,4 @@
-package me.skyrimfan1.spamm.exceptions;
+package me.dmhacker.spamm.util.exceptions;
 
 public class SpamCountRegistrationException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

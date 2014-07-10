@@ -1,4 +1,4 @@
-package me.skyrimfan1.spamm.files;
+package me.dmhacker.spamm.util.files;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

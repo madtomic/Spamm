@@ -1,11 +1,11 @@
-package me.skyrimfan1.spamm.handler;
+package me.dmhacker.spamm.handler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.skyrimfan1.spamm.Spamm;
-import me.skyrimfan1.spamm.exceptions.NoTrackerFoundException;
-import me.skyrimfan1.spamm.util.SpammLevel;
+import me.dmhacker.spamm.Spamm;
+import me.dmhacker.spamm.util.SpammLevel;
+import me.dmhacker.spamm.util.exceptions.NoTrackerFoundException;
 
 import org.bukkit.entity.Player;
 
@@ -17,6 +17,7 @@ public class SpammHandler {
 		trackers.add(tracker);
 	}
 	
+	@Deprecated
 	public void untrack(Player player) {
 		try {
 			SpammTracker tracker = getTracker(player);
@@ -32,13 +33,14 @@ public class SpammHandler {
 		}
 	}
 	
+	public void dump(){
+		trackers.clear();
+	}
+	
 	public SpammLevel log(Player player, String message) {
 		try {
 			SpammTracker tracker = getTracker(player);
 			SpammLevel level = tracker.logMessage(message);
-			if (player.hasPermission("spamm.exempt") == false) {
-				Spamm.getInstance().getSpamProcessor().assess(player, level);
-			}
 			return level;
 		} catch (NoTrackerFoundException e) {
 			Spamm.getInstance().log.severe(e.mishap);

@@ -1,4 +1,4 @@
-package me.skyrimfan1.spamm.util;
+package me.dmhacker.spamm.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

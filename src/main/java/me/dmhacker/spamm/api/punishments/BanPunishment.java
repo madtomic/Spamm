@@ -1,6 +1,6 @@
-package me.skyrimfan1.spamm.punishments;
+package me.dmhacker.spamm.api.punishments;
 
-import me.skyrimfan1.spamm.Spamm;
+import me.dmhacker.spamm.Spamm;
 
 import org.bukkit.BanList.Type;
 import org.bukkit.ChatColor;

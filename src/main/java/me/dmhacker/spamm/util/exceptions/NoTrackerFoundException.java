@@ -1,4 +1,4 @@
-package me.skyrimfan1.spamm.exceptions;
+package me.dmhacker.spamm.util.exceptions;
 
 import org.bukkit.entity.Player;
 

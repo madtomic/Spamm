@@ -1,6 +1,6 @@
-package me.skyrimfan1.spamm.api.events;
+package me.dmhacker.spamm.api.events;
 
-import me.skyrimfan1.spamm.util.SpammLevel;
+import me.dmhacker.spamm.util.SpammLevel;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

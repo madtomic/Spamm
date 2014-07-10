@@ -1,8 +1,8 @@
-package me.skyrimfan1.spamm.command;
+package me.dmhacker.spamm.command;
 
-import me.skyrimfan1.spamm.Spamm;
-import me.skyrimfan1.spamm.util.SpammMessaging;
-import me.skyrimfan1.spamm.util.Updater;
+import me.dmhacker.spamm.Spamm;
+import me.dmhacker.spamm.util.SpammMessaging;
+import me.dmhacker.spamm.util.Updater;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

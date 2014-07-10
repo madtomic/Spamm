@@ -1,18 +1,18 @@
-package me.skyrimfan1.spamm;
+package me.dmhacker.spamm;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import me.skyrimfan1.spamm.command.SpammCommand;
-import me.skyrimfan1.spamm.exceptions.SpamCountRegistrationException;
-import me.skyrimfan1.spamm.files.SpammLogFile;
-import me.skyrimfan1.spamm.handler.SpammHandler;
-import me.skyrimfan1.spamm.handler.SpammProcessor;
-import me.skyrimfan1.spamm.listener.SpammUniversalListener;
-import me.skyrimfan1.spamm.util.Metrics;
-import me.skyrimfan1.spamm.util.Updater;
-import me.skyrimfan1.spamm.util.Updater.UpdateResult;
+import me.dmhacker.spamm.command.SpammCommand;
+import me.dmhacker.spamm.handler.SpammHandler;
+import me.dmhacker.spamm.handler.SpammProcessor;
+import me.dmhacker.spamm.handler.SpammUniversalListener;
+import me.dmhacker.spamm.util.Metrics;
+import me.dmhacker.spamm.util.Updater;
+import me.dmhacker.spamm.util.Updater.UpdateResult;
+import me.dmhacker.spamm.util.exceptions.SpamCountRegistrationException;
+import me.dmhacker.spamm.util.files.SpammLogFile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -56,7 +56,7 @@ public class Spamm extends JavaPlugin{
 	
 	@Override
 	public void onDisable(){
-		getServer().getScheduler().cancelTasks(this);
+		handler.dump();
 		this.log.info("[Spamm] Laters!");
 		this.log.info("[Spamm] Laters!");
 		this.log.info("[Spamm] Laters!");
@@ -91,7 +91,7 @@ public class Spamm extends JavaPlugin{
 	}
 	
 	private void update(){
-		Updater updater = new Updater(this, 75425, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
+		Updater updater = new Updater(this, 75425, this.getJavaFile(), Updater.UpdateType.NO_DOWNLOAD, true);
 		if (updater.getResult() == UpdateResult.SUCCESS) {
 			if (shouldDownload()) {
 				new Updater(this, 75425, this.getJavaFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
@@ -179,6 +179,10 @@ public class Spamm extends JavaPlugin{
 	
 	public boolean shouldDownload(){
 		return getConfig().getBoolean("download");
+	}
+	
+	public boolean shouldDecapitalize() {
+		return getConfig().getBoolean("misc.decapitalize");
 	}
 	
 	private boolean shouldMetricize(){

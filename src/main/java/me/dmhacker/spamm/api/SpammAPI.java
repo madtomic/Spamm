@@ -1,7 +1,7 @@
-package me.skyrimfan1.spamm.api;
+package me.dmhacker.spamm.api;
 
-import me.skyrimfan1.spamm.Spamm;
-import me.skyrimfan1.spamm.punishments.SpammPunishment;
+import me.dmhacker.spamm.Spamm;
+import me.dmhacker.spamm.api.punishments.SpammPunishment;
 
 public class SpammAPI {
 

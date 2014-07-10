@@ -1,4 +1,5 @@
-package me.skyrimfan1.spamm.punishments;
+package me.dmhacker.spamm.api.punishments;
+
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

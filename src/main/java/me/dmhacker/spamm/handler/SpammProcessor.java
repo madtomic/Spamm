@@ -1,16 +1,16 @@
-package me.skyrimfan1.spamm.handler;
+package me.dmhacker.spamm.handler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import me.skyrimfan1.spamm.Spamm;
-import me.skyrimfan1.spamm.punishments.BanPunishment;
-import me.skyrimfan1.spamm.punishments.KickPunishment;
-import me.skyrimfan1.spamm.punishments.SpammPunishment;
-import me.skyrimfan1.spamm.util.SpammLevel;
-import me.skyrimfan1.spamm.util.SpammMessaging;
+import me.dmhacker.spamm.Spamm;
+import me.dmhacker.spamm.api.punishments.BanPunishment;
+import me.dmhacker.spamm.api.punishments.KickPunishment;
+import me.dmhacker.spamm.api.punishments.SpammPunishment;
+import me.dmhacker.spamm.util.SpammLevel;
+import me.dmhacker.spamm.util.SpammMessaging;
 
 public class SpammProcessor {
 	private List<SpammPunishment> punishments;
@@ -60,7 +60,7 @@ public class SpammProcessor {
 			if (level == SpammLevel.PERMITTED) {
 				return;
 			}
-			String log = SpammMessaging.getDate()+player.getName()+" was spamming at level: "+level.name();
+			String log = SpammMessaging.getDate()+player.getName()+" ["+player.getUniqueId()+"] was spamming at level: "+level.name();
 			Spamm.getInstance().getSpamLog().addLine(log);
 		}
 	}
