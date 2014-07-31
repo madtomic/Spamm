@@ -1,6 +1,6 @@
 name: Spamm
 main: me.dmhacker.spamm.Spamm
-version: 1.1.0
+version: 1.1.2
 description: Prevents those darn client spammers!
 author: skyrimfan1
 load: POSTWORLD
