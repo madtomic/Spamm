@@ -27,21 +27,23 @@ public class SpammUniversalListener implements Listener {
 		}
 		if (event.isAsynchronous()) {
 			String msg = event.getMessage();
-			int capitalLetters = 0;
-			for (char c : msg.toCharArray()) {
-				if (Character.isUpperCase(c))
-					capitalLetters += 1;
-			}
-			double half = msg.length() / 2;
-			if (capitalLetters >= half) {
-				String precedent = msg.substring(0, 1);
-				ChatColor color = ChatColor.RESET;
-				if (precedent.equals("§")) {
-					color = ChatColor.getByChar(msg.substring(1, 2));
+			if (Spamm.getInstance().shouldDecapitalize()) {
+				int capitalLetters = 0;
+				for (char c : msg.toCharArray()) {
+					if (Character.isUpperCase(c))
+						capitalLetters += 1;
 				}
-				String noColor = ChatColor.stripColor(msg);
-				String newMsg = color + noColor.substring(0, 1).toUpperCase() + noColor.substring(1).toLowerCase();
-				event.setMessage(newMsg);
+				double half = msg.length() / 2;
+				if (capitalLetters >= half) {
+					String precedent = msg.substring(0, 1);
+					ChatColor color = ChatColor.RESET;
+					if (precedent.equals("§")) {
+						color = ChatColor.getByChar(msg.substring(1, 2));
+					}
+					String noColor = ChatColor.stripColor(msg);
+					String newMsg = color + noColor.substring(0, 1).toUpperCase() + noColor.substring(1).toLowerCase();
+					event.setMessage(newMsg);
+				}
 			}
 			Future<Object> future = Spamm.getInstance().getServer().getScheduler().callSyncMethod(Spamm.getInstance(), new Callable<Object>(){
 
