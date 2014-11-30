@@ -1,36 +1,30 @@
 package me.dmhacker.spamm.handler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-import me.dmhacker.spamm.Spamm;
 import me.dmhacker.spamm.util.SpammLevel;
-import me.dmhacker.spamm.util.exceptions.NoTrackerFoundException;
 
 import org.bukkit.entity.Player;
 
 public class SpammHandler {
-	private List<SpammTracker> trackers = new ArrayList<SpammTracker>();
+	private Map<UUID, SpammTracker> trackers = new HashMap<UUID, SpammTracker>();
 	
 	public void track(Player player) {
-		SpammTracker tracker = new SpammTracker(player);
-		trackers.add(tracker);
+		if (isTracking(player)) {
+			trackers.get(player.getUniqueId()).setPaused(false);
+			return;
+		}
+		trackOverride(player);
 	}
 	
-	@Deprecated
-	public void untrack(Player player) {
-		try {
-			SpammTracker tracker = getTracker(player);
-			List<SpammTracker> newTrackers = new ArrayList<SpammTracker>();
-			for (SpammTracker track : trackers) {
-				if (track != tracker) {
-					newTrackers.add(track);
-				}
-			}
-			trackers = newTrackers;
-		} catch (NoTrackerFoundException e) {
-			Spamm.getInstance().log.severe(e.mishap);
-		}
+	private void trackOverride(Player player) {
+		trackers.put(player.getUniqueId(), new SpammTracker(player));
+	}
+	
+	public void pause(Player player) {
+		trackers.get(player.getUniqueId()).setPaused(true);
 	}
 	
 	public void dump(){
@@ -38,31 +32,16 @@ public class SpammHandler {
 	}
 	
 	public SpammLevel log(Player player, String message) {
-		try {
-			SpammTracker tracker = getTracker(player);
-			SpammLevel level = tracker.logMessage(message);
-			return level;
-		} catch (NoTrackerFoundException e) {
-			Spamm.getInstance().log.severe(e.mishap);
-			return null;
-		}
+		SpammTracker tracker = getTracker(player);
+		SpammLevel level = tracker.logMessage(message).getLevel();
+		return level;
 	}
 	
 	public boolean isTracking(Player player) {
-		for (SpammTracker track : trackers) {
-			if (track.getPlayer() == player) {
-				return true;
-			}
-		}
-		return false;
+		return trackers.containsKey(player.getUniqueId());
 	}
 	
-	public SpammTracker getTracker(Player player) throws NoTrackerFoundException {
-		for (SpammTracker track : trackers) {
-			if (track.getPlayer() == player) {
-				return track;
-			}
-		}
-		throw new NoTrackerFoundException(player);
+	public SpammTracker getTracker(Player player) {
+		return trackers.get(player.getUniqueId());
 	}
 }

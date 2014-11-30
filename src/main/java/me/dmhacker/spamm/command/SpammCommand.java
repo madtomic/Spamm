@@ -1,7 +1,6 @@
 package me.dmhacker.spamm.command;
 
 import me.dmhacker.spamm.Spamm;
-import me.dmhacker.spamm.util.SpammMessaging;
 import me.dmhacker.spamm.util.Updater;
 
 import org.bukkit.ChatColor;
@@ -16,7 +15,7 @@ public class SpammCommand implements CommandExecutor {
 		if (cmd.getName().equalsIgnoreCase("spamm")) {
 			int argslength = args.length;
 			if (argslength == 0) {
-				sender.sendMessage(ChatColor.WHITE+""+ChatColor.STRIKETHROUGH+"          "+ChatColor.RESET+" "+SpammMessaging.getPrefix()+ChatColor.WHITE+""+ChatColor.STRIKETHROUGH+"          ");
+				sender.sendMessage(ChatColor.STRIKETHROUGH+"          "+ChatColor.YELLOW+ChatColor.BOLD+" Spamm "+ChatColor.RESET+ChatColor.STRIKETHROUGH+"          ");
 				sender.sendMessage(ChatColor.GOLD+"Goal: "+ChatColor.GRAY+"Lightweight spam-catching plugin");
 				sender.sendMessage(ChatColor.GOLD+"Version: "+ChatColor.GRAY+Spamm.getInstance().getDescription().getVersion());
 				sender.sendMessage(ChatColor.GOLD+"Authors: "+ChatColor.GRAY+Spamm.getInstance().getDescription().getAuthors());
@@ -31,7 +30,7 @@ public class SpammCommand implements CommandExecutor {
 					if (sender.hasPermission("spamm.update")) {
 						if (Spamm.getInstance().isUpdatable()) {
 							Updater updater = new Updater(Spamm.getInstance(), 75425, Spamm.getInstance().getJavaFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
-							Spamm.getInstance().log.info("[Spamm] Manually downloaded latest version: "+updater.getLatestName());
+							Spamm.getInstance().getLogger().info("Manually downloaded latest version: "+updater.getLatestName());
 							sender.sendMessage(ChatColor.GREEN+"Downloading Spamm v"+updater.getLatestGameVersion()+".");
 						}
 						else {

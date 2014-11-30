@@ -2,7 +2,6 @@ package me.dmhacker.spamm;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import me.dmhacker.spamm.command.SpammCommand;
 import me.dmhacker.spamm.handler.SpammHandler;
@@ -18,8 +17,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Spamm extends JavaPlugin{
-	public Logger log = Logger.getLogger("Minecraft");
+@SuppressWarnings("deprecation")
+public class Spamm extends JavaPlugin {
+	private static Spamm instance;
+	
 	private SpammLogFile logFile;
 	private SpammHandler handler;
 	private SpammProcessor processor;
@@ -29,6 +30,7 @@ public class Spamm extends JavaPlugin{
 	
 	@Override
 	public void onEnable(){
+		instance = this;
 		handler = new SpammHandler();
 		processor = new SpammProcessor();
 		logFile = new SpammLogFile(new File(getDataFolder(), "spamlog.txt"));
@@ -48,23 +50,19 @@ public class Spamm extends JavaPlugin{
 			}, 0);
 		}
 		else {
-			this.log.info("[Spamm] Did not search for an update.");
+			getLogger().info("Did not search for an update.");
 		}
-		this.log.info("[Spamm] So, I hear you don't like to ... spammmmmm?");
 		trackCurrent();
 	}
 	
 	@Override
 	public void onDisable(){
 		handler.dump();
-		this.log.info("[Spamm] Laters!");
-		this.log.info("[Spamm] Laters!");
-		this.log.info("[Spamm] Laters!");
-		this.log.info("[Spamm] Teehee ... got a bit carried away!");
+		instance = null;
 	}
 	
 	public static Spamm getInstance(){
-		return (Spamm) Bukkit.getPluginManager().getPlugin("Spamm");
+		return instance;
 	}
 	
 	public SpammHandler getSpamHandler(){
@@ -74,7 +72,6 @@ public class Spamm extends JavaPlugin{
 	public SpammProcessor getSpamProcessor(){
 		return processor;
 	}
-	
 	
 	public SpammLogFile getSpamLog() {
 		return logFile;
@@ -95,17 +92,17 @@ public class Spamm extends JavaPlugin{
 		if (updater.getResult() == UpdateResult.SUCCESS) {
 			if (shouldDownload()) {
 				new Updater(this, 75425, this.getJavaFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
-				this.log.info("[Spamm] Automatically downloaded latest version: "+updater.getLatestName());
+				getLogger().info("Automatically downloaded latest version: "+updater.getLatestName());
 				this.isUpdatable = false;
 			}
 			else {
-				this.log.warning("[Spamm] An updated version was found: "+updater.getLatestName());
-				this.log.warning("[Spamm] To download it, use the command: /spamm update");
+				getLogger().warning("An updated version was found: "+updater.getLatestName());
+				getLogger().warning("To download it, use the command: /spamm update");
 				this.isUpdatable = true;
 			}
 		}
 		else {
-			this.log.severe("[Spamm] Ignored updater due to complications.");
+			getLogger().severe("Ignored updater due to complications.");
 			this.isUpdatable = false;
 		}
 	}
@@ -119,23 +116,19 @@ public class Spamm extends JavaPlugin{
 			try {
 				this.metrics = new Metrics(this);
 				this.metrics.start();
-				this.log.info("[Spamm] Initialized metrics.");
+				getLogger().info("Initialized metrics.");
 			} catch (IOException e) {
-				log.severe("[Spamm] Ignored metrics due to complications.");
+				getLogger().severe("Ignored metrics due to complications.");
 			}
 		}
 		else {
-			this.log.info("[Spamm] Will not use metrics.");
+			getLogger().info("Will not use metrics.");
 		}
 	}
 	
 	private void checkCount() {
 		if (getWarningCount() >= getPunishingCount()) {
 			throw new SpamCountRegistrationException(getWarningCount(), getPunishingCount());
-		}
-		else {
-			this.log.info("[Spamm] WARNING Value: "+getWarningCount());
-			this.log.info("[Spamm] PUNISHMENT Value: "+getPunishingCount());
 		}
 	}
 	

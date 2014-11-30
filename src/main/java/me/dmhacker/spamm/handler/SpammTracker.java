@@ -4,13 +4,17 @@ import me.dmhacker.spamm.Spamm;
 import me.dmhacker.spamm.util.SpammLevel;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class SpammTracker {
+	private Spamm spamm = Spamm.getInstance();
 	private Player player;
 	private String lastMessage;
 	private int count;
 	private boolean isAccepting;
+	private boolean paused;
+	private SpammLevel previousLevel;
 	private SpammLevel level;
 	private BukkitTask task; 
 	
@@ -18,6 +22,7 @@ public class SpammTracker {
 		this.player = player;
 		this.isAccepting = true;
 		this.count = 0;
+		this.previousLevel = SpammLevel.PERMITTED;
 		this.level = SpammLevel.PERMITTED;
 	}
 	
@@ -35,28 +40,42 @@ public class SpammTracker {
 	 * Usually only Spamm handles this but can be externally used
 	 * 
 	 * @param last The message a player chatted
-	 * @return Their current SpammLevel with the latest string inputted
+	 * @return The tracker instance
 	 */
-	public SpammLevel logMessage(String last) {
-		if (task != null) task.cancel();
-		if (isAccepting == false) count += 1;
+	public SpammTracker logMessage(String last) {
 		
-		this.level = count >= Spamm.getInstance().getWarningCount() && count < Spamm.getInstance().getPunishingCount() ? SpammLevel.WARNING : SpammLevel.PERMITTED;
-		this.level = count >= Spamm.getInstance().getPunishingCount() ? SpammLevel.PUNISHING : level;
-		this.lastMessage = last;
+		if (task != null)
+			task.cancel();
+		if (!isAccepting)
+			count += 1;
+		
+		previousLevel = level;
+		level = count >= spamm.getWarningCount() && count < spamm.getPunishingCount() ? SpammLevel.WARNING : SpammLevel.PERMITTED;
+		level = count >= spamm.getPunishingCount() ? SpammLevel.PUNISHING : level;
+		if (previousLevel == SpammLevel.PUNISHING && level != SpammLevel.PUNISHING) {
+			level = SpammLevel.PERMITTED;
+			count = 0;
+		}
+		lastMessage = last;
 		isAccepting = false;
-		task = Spamm.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(Spamm.getInstance(), new Runnable(){
+		task = new BukkitRunnable() {
 
 			@Override
 			public void run() {
-				isAccepting = true;
-				if (count > 0) {
-					count -= 1;
+				if (!paused) {
+					isAccepting = true;
+					if (count > 0) {
+						count -= 1;
+					}
 				}
 			}
 			
-		}, Spamm.getInstance().getDelay(), Spamm.getInstance().getCooldown());
-		return level;
+		}.runTaskTimerAsynchronously(spamm, spamm.getDelay(), spamm.getCooldown());
+		return this;
+	}
+	
+	public void setPaused(boolean pause) {
+		this.paused = pause;
 	}
 	
 	/**
@@ -75,7 +94,7 @@ public class SpammTracker {
 	 * 
 	 * @return The player's SpammLevel
 	 */
-	public SpammLevel getLevel() {
+	public synchronized SpammLevel getLevel() {
 		return level;
 	}
 	
